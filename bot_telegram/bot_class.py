@@ -5,12 +5,14 @@ from bottle import Bottle, response, request as bottle_request
 class BotHandlerMixin:
     BOT_URL = None
 
+    def __init__(self):
+        pass
+
     def get_chat_id(self, data):
         """
         Method to extract chat id from telegram request.
         """
         chat_id = data['message']['chat']['id']
-
         return chat_id
 
     def get_message(self, data):
@@ -18,7 +20,6 @@ class BotHandlerMixin:
         Method to extract message id from telegram request.
         """
         message_text = data['message']['text']
-
         return message_text
 
     def get_sender(self, data):
@@ -26,7 +27,6 @@ class BotHandlerMixin:
         Method to extract message id from telegram request.
         """
         sender_name = data['message']['from']['first_name']
-
         return sender_name
 
     def send_message(self, prepared_data):
@@ -34,7 +34,7 @@ class BotHandlerMixin:
         Prepared data should be json which includes at least `chat_id` and `text`
         """
         message_url = self.BOT_URL + 'sendMessage'
-        requests.post(message_url, json=prepared_data)
+        return requests.post(message_url, json=prepared_data)
 
 
 class TelegramBot(BotHandlerMixin, Bottle):
@@ -57,14 +57,12 @@ class TelegramBot(BotHandlerMixin, Bottle):
             "chat_id": chat_id,
             "text": answer,
         }
-
         return json_data
 
     def post_handler(self):
         data = bottle_request.json
         answer_data = self.prepare_data_for_answer(data)
-        self.send_message(answer_data)
-
+        response = self.send_message(answer_data)
         return response
 
 
