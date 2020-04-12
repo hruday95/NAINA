@@ -3,7 +3,7 @@ import speech_recognition as sr
 def google_recog():
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        print("Talk to J.A.R.V.I.S: ")
+        # print("Talk to J.A.R.V.I.S: ")
         audio = r.listen(source)
     try:
         print (r.recognize_google(audio))

@@ -7,9 +7,9 @@ class EventManager:
 	def __init__(self):
 		self.data = pd.read_excel('src/engine/data/Bday.xlsx', sheet_name='Family')
 
-	@staticmethod
-	def event_finder(data, time=pd.Timestamp(dt.today())):
-		data = data.sort_values(['Date'])
+
+	def event_finder(self, time=pd.Timestamp(dt.today())):
+		data = self.data.sort_values(['Date'])
 		events_today = data[data.Date == time]
 		events_nextweek = data[data.Date > pd.Timestamp(dt.today())].iloc[:3, ]
 		events_today['Date'] = events_today['Date'].dt.strftime('%Y-%m-%d')
