@@ -1,7 +1,7 @@
 import requests
 
 
-class textsmsout:
+class TextSMS:
 
     def __init__(self):
         self.url = 'https://www.sms4india.com/api/v1/sendCampaign'
@@ -23,4 +23,4 @@ class textsmsout:
           }
           response = requests.post(self.url, req_params)
           status.append(response['status'])
-          return ((status.count("success")/len(phoneNo))*100)
+        return ((status.count("success")/len(phoneNo))*100)
